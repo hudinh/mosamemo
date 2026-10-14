@@ -1,6 +1,10 @@
 
 body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+#map { 
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    width: 100%; }
 
 .mapboxgl-popup {
     max-width: 75vw !important; /* vm = viewport width */
@@ -39,6 +43,186 @@ body { margin: 0; padding: 0; }
 
 .clue-images {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 8px;
+}
+
+#chat-display {
+    position: fixed;
+    overflow: visible;
+    bottom: 20px;
+    width: 100%;
+    max-height: 20vh;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    box-sizing: border-box;
+    padding: 24px;
+    gap: 15px;
+    z-index: 10;
+}
+
+#mosa-avatar img {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+#audio-bubble {
+    position: relative; /* establishes positioning context for next-btn */
+    overflow: visible;
+    max-width: 70%;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 50%;
+    background-color: #f2f2e9;
+    box-sizing: border-box;
+    color: #1b25f2;
+}
+
+#audio-bubble.hide {
+    display: none;
+}
+
+.next-btn {
+    display: none;
+    position: absolute;
+    bottom: -18px;
+    right: -18px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 700;
+    font-size: 24px;
+    width: 36px;
+    aspect-ratio: 1;
+    background-color: #1b25f2;
+    border: none;
+    border-radius: 50%;
+    color: #f2f2e9;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.next-btn.visible {
+    display: flex;
+}
+
+.modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80vh;
+    border-radius: 50px 50px 0 0;
+    background-color: #f2f2e9;
+    overflow-y: auto;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    padding: 48px;
+    gap: 25px;
+    align-items: center;
+    box-sizing: border-box;
+    
+    /* slide up animation */
+    transform: translateY(100%);
+    transition: transform 0.3s ease-out;
+}
+
+.modal.visible {
+    transform: translateY(0);
+}
+
+.heading {
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #1b25f2;
+}
+
+.profileCollection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10vw;
+}
+
+.profile {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    color: #1b25f2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    aspect-ratio: 1;
+}
+
+.profile.locked {
+    opacity: 0.3;
+    width: 10vw;
+    cursor: default;
+    display: flex;
+    gap: 28px;
+}
+
+.profile.unlocked {
+    cursor: pointer;
+    width: 20vw;
+    display: flex;
+    gap: 5px;
+}
+
+.modalContent {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    color: #1b25f2;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    font-weight: 400;
+    background-color: #1b25f2;
+    color: #f2f2e9;
+    padding: 15px 25px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+}
+
+.stopMarker {
+    z-index: 15; 
+}
+
+.stopMarker img {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+/* .stopMarker.upcoming {
+    opacity: 0.4;
+} */
+
+.stopMarker.visited {
+    filter: saturate(30%) brightness(1.6);
+}
+
+.userMarker {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #F23D3D;
+    border: 3px solid #f2f2e9;
+    box-shadow: 0 0 0 24px #F23D3D4D;
 }
