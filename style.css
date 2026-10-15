@@ -188,6 +188,35 @@ body { margin: 0; padding: 0; }
     align-items: center;
 }
 
+.modalContent.notes {
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    gap: 0;
+}
+
+.modalContent.notes p, ul {
+    margin: 0;
+    margin-bottom: 12px;
+}
+
+.closeBtn {
+    font-size: 48px;
+    font-weight: 1000;
+    position: absolute;
+    top: 36px;
+    right: 36px;
+    color: #1b25f2;
+    cursor: pointer;
+}
+
+.closeBtn.messageClose {
+    position: static;
+    font-size: 24px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
 .button {
     font-family: 'Roboto Mono', monospace;
     font-size: 16px;
@@ -224,5 +253,37 @@ body { margin: 0; padding: 0; }
     border-radius: 50%;
     background-color: #F23D3D;
     border: 3px solid #f2f2e9;
-    box-shadow: 0 0 0 24px #F23D3D4D;
+    box-shadow: 0 0 0 24px #F23D3D33;
+}
+
+.message {
+    display: none;
+    position: fixed;
+    top: 12%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    background-color: #f2f2e9;
+    border-radius: 25px;
+    border: 3px solid #1b25f2;
+    padding: 18px 24px;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+.message.visible {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.messageText {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    font-weight: 400;
+    color: #1b25f2;
+    text-align: left;
+    margin: 0;
 }
