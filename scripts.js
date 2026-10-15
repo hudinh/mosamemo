@@ -41,7 +41,7 @@ navigator.geolocation.getCurrentPosition((position) => {
 })
 
 
-// 2. TREE DATA
+// 2. DATA
 const treeFamilies = [
     { scientific: 'Altingiaceae',       common: 'Sweetgum Family' },
     { scientific: 'Anacardiaceae',      common: 'Cashew Family' },
@@ -89,6 +89,50 @@ const treeFamilies = [
     { scientific: 'Thymelaeaceae',      common: 'Daphne Family' },
     { scientific: 'Ulmaceae',           common: 'Elm Family' },
 ];
+
+const glossaryData = {
+    leaf: {
+        label: 'Leaf',
+        tabs: ['Shape', 'Arrangement', 'Division', 'Texture', 'Edges'],
+        content: {
+            'Shape': ['Acicular','Aristate','Cordate','Cuneate','Digitate','Deltoid','Elliptic','Falcate','Flabellate','Hastate','Lanceolate','Linear','Lobed','Obcordate','Obovate','Obtuse','Round','Ovate','Palmate','Peltate','Pinnatisect','Reniform','Rhomboid','Spatulate','Truncate'],
+            'Arrangement': ['Alternate','Basal','Opposite','Rosette','Whorled'],
+            'Division': ['Simple','Compound','Bifoliate','Trifoliate','Digitate','Pinnate','Bipinnate'],
+            'Texture': ['Glandular','Glabrous','Glossy','Pubescent','Hirsute','Sericeous','Waxy','Wrinkled'],
+            'Edges': ['Ciliate','Crenate','Dentate','Denticulate','Doubly Serrate','Entire','Lobed','Serrate','Serrulate','Sinuate','Spiny','Undulate']
+        }
+    },
+    flower: {
+        label: 'Flower',
+        tabs: ['Petal Shape', 'Form', 'Arrangement', 'Texture', 'Structure'],
+        content: {
+            'Petal Shape': ['Fringed','Notched','Pointed','Round','Ruffled','Strap-shaped'],
+            'Form': ['Actinomorphic','Campanulate','Cruciform','Funnelform','Labiate','Rosaceous','Tubular','Zygomorphic'],
+            'Arrangement': ['Single','Catkin','Corymb','Head','Panicle','Raceme','Spike','Umbel'],
+            'Texture': ['Papery','Powdery','Rubbery','Silky','Smooth','Sticky','Velvety','Waxy'],
+            'Structure': ['Flower Structure']
+        }
+    },
+    fruit: {
+        label: 'Fruit',
+        tabs: ['Form', 'Shape', 'Texture'],
+        content: {
+            'Form': ['Achene','Aggregate Fruit','Berry','Capsule','Cone','Drupe','Hip','Legume','Nut','Pod','Samara'],
+            'Shape': ['Angular','Asymmetrical','Coiled','Elongated','Flat','Heart-shaped','Oval','Pear-shaped','Round','Star-shaped'],
+            'Texture': ['Bumpy','Smooth','Fuzzy','Hairy','Glossy','Leathery','Ribbed','Scaly','Spiky','Waxy','Wrinkled']
+        }
+    },
+    stemBranch: {
+        label: 'Stem & Branch',
+        tabs: ['Shape', 'Pattern', 'Special Feature', 'Texture'],
+        content: {
+            'Shape': ['Flat','Ridged','Round','Square','Triangular','Winged'],
+            'Pattern': ['Lenticels','Nodes','Mottled','Ridges','Stripes'],
+            'Special Feature': ['Aerial Roots','Hair','Peeling Bark','Stipules','Tendrils','Thorn','Twisting Pattern','Waxy Bloom'],
+            'Texture': ['Brittle','Corky','Fibrous','Smooth','Spongy','Woody']
+        }
+    }
+};
 
 
 // 3. HELPER FUNCTIONS
@@ -412,7 +456,7 @@ function advanceStop() {
 // 5. MOSA INTERACTION UI
 // create UI elements
 const chatDisplay = document.querySelector('#chat-display');
-const mosaAvartar = document.querySelector('#mosa-avatar');
+const mosaAvatar = document.querySelector('#mosa-avatar');
 const audioBubble = document.querySelector('#audio-bubble');
 const nextBtn = document.querySelector('.next-btn');
 
@@ -429,8 +473,8 @@ audio.addEventListener('ended', () => {
 let currentStep = 1;
 
 const steps = {
-    1: { audio: './audio/audio-Betula populifolia.mp3'}, 
-    2: { audio: './audio/audio-Carpinus caroliniana.mp3'}, 
+    1: { audio: './audio/audio-intro.mp3'}, 
+    2: { audio: './audio/audio-family-choice.mp3'}, 
     3: 'family-selection' // signal to show modal instead of audio
 };
 
@@ -470,6 +514,8 @@ const profileCollection = document.createElement('div');
 familyModal.appendChild(profileCollection);
 profileCollection.classList.add('profileCollection');
 
+createCloseBtn(familyModal);
+
 const unlockedFamilies = new Set(['Betulaceae']);
 let selectedFamily = undefined; 
 
@@ -498,7 +544,6 @@ for (const family of treeFamilies) {
 
 function showFamilyModal() {
     familyModal.classList.add('visible');
-    createCloseBtn(familyModal);
 }
 
 //create walk modal
@@ -512,11 +557,9 @@ walkModal.appendChild(walkModalHeading);
 
 const walkContent = document.createElement('div');
 walkContent.classList.add('modalContent');
-walkContent.innerHTML = `<p>Below is a list of trees included in this walk. 
-                        Tap “Find trees near me” to generate a walking route in your neighborhood! 
-                        Once the route is generated, tap the first tree on the map and you will see 
-                        a pop-up with clues for you to hunt for the tree and an audio guide. 
-                        Follow the instructions of the audio guide and enjoy the walk!</p>
+walkContent.innerHTML = `<audio controls>
+                                <source src="./audio/audio-walk-orientation.mp3" type="audio/mpeg">
+                        </audio>
                         <ol>
                             <li>
                                 <strong>Sweet Birch</strong>
@@ -540,9 +583,10 @@ findTreesBtn.addEventListener('click', () => {
     findTrees();
 });
 
+createCloseBtn(walkModal);
+
 function showWalkModal() {
     walkModal.classList.add('visible');
-    createCloseBtn(walkModal);
     walkModalHeading.textContent = `${selectedFamily.common} (${selectedFamily.scientific}) Walk`;
 }
 
@@ -558,6 +602,8 @@ treeModal.appendChild(treeModalHeading);
 const treeContent = document.createElement('div');
 treeContent.classList.add('modalContent');
 treeModal.appendChild(treeContent);
+
+createCloseBtn(treeModal);
 
 function showTreeModal(tree, index) {
     const [scientificName, commonName] = tree.properties.GenusSpecies.split(' - ');
@@ -608,7 +654,6 @@ function showTreeModal(tree, index) {
     });
 
     treeModal.classList.add('visible');
-    createCloseBtn(treeModal);
 }
 
 // create message card 
@@ -622,3 +667,149 @@ message.appendChild(messageText);
 const messageCloseBtn = createCloseBtn(message);
 messageCloseBtn.classList.add('messageClose');
 document.body.appendChild(message);
+
+// create navigation menu
+const navMenu = document.createElement('div');
+navMenu.classList.add('navMenu');
+chatDisplay.appendChild(navMenu);
+
+mosaAvatar.addEventListener('click', () => {
+    if (navMenu.classList.contains('visible')) {
+        hideNavMenu();
+    } else {
+        showNavMenu();
+    }
+})
+
+function hideNavMenu() {
+    navMenu.classList.remove('visible');
+}
+
+function showNavMenu() {
+    navMenu.classList.add('visible');
+}
+
+const navItem1 = document.createElement('div');
+navItem1.textContent = 'Visual Glossary';
+navItem1.classList.add('navItem');
+navItem1.addEventListener('click', () => {
+    hideNavMenu();
+    showGlossary();
+});
+navMenu.appendChild(navItem1);
+
+// create visual glossary modal
+const glossaryModal = document.createElement('div');
+glossaryModal.classList.add('modal');
+document.body.appendChild(glossaryModal);
+
+const glossaryModalHeading = document.createElement('div');
+glossaryModalHeading.textContent = 'Visual Glossary';
+glossaryModalHeading.classList.add('heading');
+glossaryModal.appendChild(glossaryModalHeading);
+
+const glossaryContent = document.createElement('div');
+glossaryContent.classList.add('modalContent', 'grid');
+glossaryModal.appendChild(glossaryContent);
+
+const featureKeys = ['leaf', 'flower', 'fruit', 'stemBranch'];
+const featureLabels = ['Leaf', 'Flower', 'Fruit', 'Stem & Branch'];
+
+featureLabels.forEach((label, index) => {
+    const feature = document.createElement('div');
+    feature.classList.add('feature');
+    feature.textContent = label;
+    feature.addEventListener('click', () => {
+        glossaryModal.classList.remove('visible');
+        showFeatureModal(featureKeys[index]);
+    });
+    glossaryContent.appendChild(feature);
+});
+
+createCloseBtn(glossaryModal);
+
+function showGlossary() {
+    glossaryModal.classList.add('visible');
+}
+
+// create feature modal
+const featureModal = document.createElement('div');
+featureModal.classList.add('modal');
+document.body.appendChild(featureModal);
+
+const featureModalHeading = document.createElement('div');
+featureModalHeading.classList.add('heading');
+featureModal.appendChild(featureModalHeading);
+
+const tabBar = document.createElement('div');
+tabBar.classList.add('tabBar');
+featureModal.appendChild(tabBar);
+
+const featureContent = document.createElement('div');
+featureContent.classList.add('modalContent', 'grid', 'noGap');
+featureModal.appendChild(featureContent);
+
+createCloseBtn(featureModal);
+
+let currentFeatureKey = '';
+
+function showFeatureModal(featureKey) {
+    currentFeatureKey = featureKey;
+    const feature = glossaryData[featureKey];
+    featureModalHeading.textContent = feature.label;
+
+    tabBar.innerHTML = '';
+    
+    // build tabs
+    feature.tabs.forEach((tabName, index) => {
+        const tab = document.createElement('div');
+        tab.textContent = tabName;
+        tab.classList.add('tab');
+        if (index === 0) tab.classList.add('active');
+        tab.addEventListener('click', () => {
+            tabBar.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            populateFeatureContent(feature, tabName);
+        });
+        tabBar.appendChild(tab);
+    });
+
+    // show first tab
+    populateFeatureContent(feature, feature.tabs[0]);
+    featureModal.classList.add('visible');
+}
+
+function populateFeatureContent(feature, tabName) {
+    featureContent.innerHTML = '';
+    feature.content[tabName].forEach(term => {
+        const card = document.createElement('div');
+        card.classList.add('glossaryCard');
+
+        const folderKey = currentFeatureKey.replace(/([A-Z])/g, '-$1').toLowerCase();
+        const tabFolder = tabName.toLowerCase().replace(/ /g, '-');
+        const termName = term.toLowerCase().replace(/ /g, '-');
+
+        const img = document.createElement('img');
+        img.classList.add('glossaryImg');
+        img.src = `images/visual-glossary/${folderKey}/${tabFolder}/${termName}.png`;
+        img.alt = term;
+        img.addEventListener('click', () => {
+            lightboxImg.src = img.src;
+            lightbox.classList.add('visible');
+        });
+
+        card.appendChild(img);
+        featureContent.appendChild(card);
+    })
+}
+
+// create lightbox for glossary images
+const lightbox = document.createElement('div');
+lightbox.classList.add('lightbox');
+document.body.appendChild(lightbox);
+
+const lightboxImg = document.createElement('img');
+lightboxImg.classList.add('lightboxImg');
+lightbox.appendChild(lightboxImg);
+
+lightbox.addEventListener('click', () => lightbox.classList.remove('visible'));

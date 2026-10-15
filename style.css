@@ -66,6 +66,7 @@ body { margin: 0; padding: 0; }
     width: 50px;
     aspect-ratio: 1;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 #audio-bubble {
@@ -106,6 +107,33 @@ body { margin: 0; padding: 0; }
 
 .next-btn.visible {
     display: flex;
+}
+
+.navMenu {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 24px;
+    width: 45vw;
+    background-color: #f2f2e9;
+    color: #1b25f2;
+    border: 3px solid #1b25f2;
+    border-radius: 25px;
+    padding: 18px;
+    box-sizing: border-box;
+}
+
+.navMenu.visible {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.navItem {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    color: #1b25f2;
+    cursor: pointer;
 }
 
 .modal {
@@ -200,6 +228,85 @@ body { margin: 0; padding: 0; }
     margin-bottom: 12px;
 }
 
+.modalContent.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.modalContent.grid.noGap {
+    gap: 0px;
+}
+
+.feature {
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 18px;
+    font-weight: 400; 
+    background-color: #1b25f2;
+    color: #f2f2e9;
+    border-radius: 15px;
+    box-sizing: border-box;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.tabBar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+}
+.tabBar::-webkit-scrollbar {
+    display: none;
+}
+
+.tab {
+    flex: 1;
+    text-align: center;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 6px 14px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    color: #1b25f2;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.tab.active {
+    flex: none;
+    width: max-content;
+    background-color: #1b25f2;
+    color: #f2f2e9;
+}
+
+.glossaryCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; 
+    border: none;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+.glossaryImg {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: #f2f2e9;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
 .closeBtn {
     font-size: 48px;
     font-weight: 1000;
@@ -286,4 +393,25 @@ body { margin: 0; padding: 0; }
     color: #1b25f2;
     text-align: left;
     margin: 0;
+}
+
+.lightbox {
+    display: none;
+    position: fixed; 
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox.visible {
+    display: flex;
+}
+
+.lightboxImg {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 12px;
+    object-fit: contain;
 }
